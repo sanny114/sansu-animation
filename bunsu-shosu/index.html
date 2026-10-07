@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>同じ量、いろいろな表し方 ｜ 算数アニメーション</title>
+<meta name="description" content="小学5年生向けの算数アニメーション（3分40秒）。板チョコ1枚を「1」と決めて、整数・分数・小数が同じ量の別の名前だと分かる。台本から映像・ナレーション・効果音まで、Claude Codeでコードから作った。">
+<meta property="og:title" content="同じ量、いろいろな表し方（算数アニメーション）">
+<meta property="og:description" content="板チョコ1枚を「1」にすると、1/2枚と0.5枚は同じ量。整数・分数・小数のつながりを3分40秒で。">
+<meta property="og:image" content="poster.jpg">
+<meta property="og:type" content="video.other">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FFF8EC;--ink:#4A3B32;--sub:#9A8A7C;--acc:#FF5C8A;--choc:#7A4A2C;--org:#FF9F1C;--org-d:#D97B00;--blu:#2F6FE4;--line:#EADFCB;--card:#FFFFFF}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.8 "Hiragino Sans","Noto Sans JP",sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:1100px;margin:0 auto;padding:0 16px}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:20px 0;font:700 13px "Zen Maru Gothic",sans-serif;letter-spacing:.08em;color:var(--sub)}
+header a{text-decoration:none}
+header a:hover{color:var(--acc)}
+.label{display:inline-block;font:700 14px "Zen Maru Gothic",sans-serif;color:var(--acc);background:#FFE3EA;padding:4px 14px;border-radius:999px;margin:20px 0 0}
+h1{font:700 clamp(34px,6vw,64px)/1.25 "Zen Maru Gothic",sans-serif;margin:14px 0 6px;letter-spacing:.02em}
+.sub{font:500 clamp(16px,2.2vw,21px) "Zen Maru Gothic",sans-serif;color:var(--sub);margin:0 0 28px}
+.player{background:#000;border-radius:14px;overflow:hidden;box-shadow:0 10px 30px rgba(74,59,50,.15)}
+.player video{display:block;width:100%;height:auto;aspect-ratio:16/9}
+.meta{display:flex;flex-wrap:wrap;gap:6px 22px;font:700 13px "Zen Maru Gothic",sans-serif;color:var(--sub);padding:14px 4px 0}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin:24px 0 56px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border:2px solid var(--ink);border-radius:999px;font:700 15px "Zen Maru Gothic",sans-serif;text-decoration:none;transition:background .2s,color .2s}
+.btn:hover{background:var(--ink);color:#fff}
+.btn.primary{background:var(--acc);border-color:var(--acc);color:#fff}
+.btn.primary:hover{background:#e84a78;border-color:#e84a78}
+section{border-top:2px dashed var(--line);padding:44px 0}
+h2{font:700 15px "Zen Maru Gothic",sans-serif;letter-spacing:.14em;color:var(--acc);margin:0 0 20px}
+.lead{font-size:clamp(17px,2.1vw,21px);line-height:1.8;max-width:820px;margin:0 0 16px}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:8px 0 0;padding:0;list-style:none}
+.rules li{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.rules b{display:block;font:700 16px "Zen Maru Gothic",sans-serif;margin-bottom:4px}
+.rules span{color:var(--sub);font-size:14px}
+.sw{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:-2px;margin-right:6px}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th{text-align:left;font:700 13px "Zen Maru Gothic",sans-serif;color:var(--sub);padding:0 12px 10px 0;border-bottom:2px solid var(--line)}
+td{padding:14px 12px 14px 0;border-bottom:1px solid var(--line);vertical-align:top}
+td:first-child{font:700 15px "Zen Maru Gothic",sans-serif;white-space:nowrap;width:1%;padding-right:22px}
+td .time{display:block;font:500 12px "Zen Maru Gothic",sans-serif;color:var(--sub)}
+td:last-child{color:var(--sub)}
+.sheet{width:100%;height:auto;display:block;border-radius:14px;border:1px solid var(--line);background:#111}
+.cap{font-size:13px;color:var(--sub);margin:10px 0 0}
+ol.craft{margin:0;padding-left:1.4em}
+ol.craft li{margin:0 0 12px}
+ol.craft b{font:700 16px "Zen Maru Gothic",sans-serif}
+footer{border-top:2px dashed var(--line);padding:28px 0 44px;font:700 13px "Zen Maru Gothic",sans-serif;color:var(--sub);letter-spacing:.06em}
+@media (max-width:640px){
+  th{display:none}
+  td{display:block;padding:4px 0;border:0;width:auto!important}
+  tr{display:block;padding:14px 0;border-bottom:1px solid var(--line)}
+  td:first-child{padding-right:0}
+  header .hide-sm{display:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><div><a href="../">算数アニメーション</a> ／ 第2作</div><div class="hide-sm">3分40秒 · 1080p60 · 音あり</div></header>
+
+  <div class="label">小学5年生向け</div>
+  <h1>同じ量、いろいろな表し方</h1>
+  <p class="sub">整数・分数・小数は、同じ量につけた別の名前。板チョコ1枚を「1」と決めて見てみよう。</p>
+
+  <div class="player">
+    <video src="bunsu_shosu_seisu.mp4" poster="poster.jpg" controls playsinline preload="metadata"></video>
+  </div>
+  <div class="meta"><span>3分40秒</span><span>1920×1080 / 60fps</span><span>ナレーション：子ども・ナレーター</span><span>映像も音もコードで生成</span></div>
+
+  <div class="actions">
+    <a class="btn primary" href="bunsu_shosu_seisu.mp4" download>MP4をダウンロード</a>
+    <a class="btn" href="../">シリーズ一覧へ</a>
+  </div>
+
+  <section>
+    <h2>ねらい</h2>
+    <p class="lead">「この半分、分数だと2分の1、小数だと0.5。どうして名前が二つあるの？」という子どもの問いから始まる。板チョコ1枚分を「1」と決めると、1枚・2枚は整数、半分は等しく分けた1つ分だから分数、青い目盛りで読めば小数。最後に数直線に置くと、同じ量は同じ場所に来る。</p>
+    <ul class="rules">
+      <li><b>チョコ1枚分 ＝ ずっと「1」</b><span>表し方が変わっても、チョコの大きさと位置は変えない。数直線の0〜1もチョコ1枚と同じ幅。</span></li>
+      <li><b><i class="sw" style="background:var(--org)"></i>分ける線はオレンジ</b><span>チョコを等しく分けるときの線。分数の分母は「いくつに分けたか」。</span></li>
+      <li><b><i class="sw" style="background:var(--blu)"></i>測る目盛りは青</b><span>量を小数で読むための目盛り。10等分の一目盛りが0.1。チョコを増やさず、下に敷くだけ。</span></li>
+      <li><b>分数は上下に書く</b><span>画面では横線の上に分子、下に分母。分母の2から「2つに分けた」、分子の1から「その1つ分」へ印を結ぶ。</span></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>場面</h2>
+    <table>
+      <tr><th>場面</th><th>見せるもの</th><th>テロップ</th></tr>
+      <tr><td>1 同じ半分に、二つの名前？<span class="time">0:00</span></td><td>半分のチョコに「1/2枚」と「0.5枚」の札。残り半分は点線の輪郭</td><td>同じ量、いろいろな表し方</td></tr>
+      <tr><td>2 1枚、2枚を数える<span class="time">0:21</span></td><td>トレーにチョコを1枚、2枚と置く。0枚・1枚・2枚の札</td><td>この1枚分を「1」にする／整数：0、1、2、…</td></tr>
+      <tr><td>3 等しく分けた何個分か<span class="time">0:42</span></td><td>オレンジの線で2つに分け、片方だけ色つき。分母→2つの部分、分子→その1つへ印</td><td>1/2：1を2等分した、1個分</td></tr>
+      <tr><td>4 小数の目盛りで読む<span class="time">1:10</span></td><td>青い目盛りが下から滑り込む。10等分して、半分が占める5区間を0.1、0.2…0.5と数える</td><td>1/10 = 0.1／1/2 = 5/10 = 0.5</td></tr>
+      <tr><td>5 整数も分数や小数で<span class="time">1:53</span></td><td>半分が2つそろって1枚に。「2/2枚」「1枚」「1.0枚」の札。2枚なら「2 = 2/1」</td><td>2/2 = 1 = 1.0／2 = 2/1</td></tr>
+      <tr><td>6 1より大きい量<span class="time">2:26</span></td><td>1枚と半分。半分サイズの3つが光って「3/2枚」、目盛りで1と0.5を読んで「1.5枚」</td><td>3/2 = 1 + 0.5 = 1.5</td></tr>
+      <tr><td>7 数直線でも同じ場所<span class="time">2:53</span></td><td>目盛りが0〜2の数直線に変わり、0.5・1・1.5・2の下に分数と小数の札が縦に並ぶ</td><td>同じ量なら、数直線の同じ場所</td></tr>
+      <tr><td>8 確かめて、おしまい<span class="time">3:05</span></td><td>3目盛り分のチョコ。「分数なら？ 小数なら？」で3秒待って、3/10枚 = 0.3枚</td><td>「1」を決めて、量を見よう。／同じ量を、いろいろな書き方で表せる。</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>主な場面</h2>
+    <img class="sheet" src="storyboard.png" alt="主な場面12コマの一覧" loading="lazy">
+    <p class="cap">書き出し前に確認した12コマ。この一覧を見ながら、文字の重なりや札の大きさを直してから動画にした。</p>
+  </section>
+
+  <section>
+    <h2>つくり方</h2>
+    <ol class="craft">
+      <li><b>台本を書く。</b>場面ごとの映像・セリフ・テロップと、「分ける線はオレンジ、測る目盛りは青」のような画面の共通ルールを先に決めた。</li>
+      <li><b>ナレーションを合成する。</b>24行のセリフを合成音声（Microsoft Nanami）で作成。子どもの声は同じ声を少し高く速くした。数字は「にぶんのいち」のようにひらがなで書いて読み間違いを防ぎ、単語ごとの読み上げ時刻を取り出す。</li>
+      <li><b>画面をコードで描く。</b>HTML Canvasで「時刻tのときの画面」を関数として書き、札や目盛りが出る時刻をナレーションの単語の時刻に合わせた。チョコの位置と大きさは全場面で固定。</li>
+      <li><b>静止画で確かめる。</b>主な場面を書き出して一覧にし、文字の重なりや分かりにくい箇所を直す。「2/2枚の札が半分を指しているように見える」といった指摘もここで反映した。</li>
+      <li><b>音を付けて書き出す。</b>効果音とオルゴール風のBGMをPythonで合成し、ナレーションの間はBGMを小さく。60fpsで13,175コマを描いてffmpegでMP4にした。</li>
+    </ol>
+    <p class="cap">制作はすべてClaude Code上で行い、台本以外のファイル（画面・音・ナレーション・書き出し）はコードとして残してあるので、台本を直せば同じ手順で作り直せる。</p>
+  </section>
+
+  <footer>算数アニメーション 第2作 · 2026-10 · Made with Claude Code</footer>
+</div>
+</body>
+</html>
