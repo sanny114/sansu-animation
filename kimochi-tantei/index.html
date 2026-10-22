@@ -48,6 +48,8 @@ td:first-child{font:700 15px "Zen Maru Gothic",sans-serif;white-space:nowrap;wid
 td .time{display:block;font:500 12px "Zen Maru Gothic",sans-serif;color:var(--sub)}
 td:last-child{color:var(--sub)}
 .sheet{width:100%;height:auto;display:block;border-radius:14px;border:1px solid var(--line);background:#111}
+.sheet-link{display:block}
+.tap-hint{display:none}
 .cap{font-size:13px;color:var(--sub);margin:10px 0 0}
 ol.craft{margin:0;padding-left:1.4em}
 ol.craft li{margin:0 0 12px}
@@ -59,6 +61,7 @@ footer{border-top:2px dashed var(--line);padding:28px 0 44px;font:700 13px "Zen 
   tr{display:block;padding:14px 0;border-bottom:1px solid var(--line)}
   td:first-child{padding-right:0}
   header .hide-sm{display:none}
+  .tap-hint{display:inline}
 }
 </style>
 </head>
@@ -77,7 +80,7 @@ footer{border-top:2px dashed var(--line);padding:28px 0 44px;font:700 13px "Zen 
 
   <div class="actions">
     <a class="btn primary" href="kimochi_tantei.mp4" download>MP4をダウンロード</a>
-    <a class="btn" href="../">シリーズ一覧へ</a>
+    <a class="btn" href="../">ほかの動画を見る</a>
   </div>
 
   <section>
@@ -105,8 +108,8 @@ footer{border-top:2px dashed var(--line);padding:28px 0 44px;font:700 13px "Zen 
 
   <section>
     <h2>主な場面</h2>
-    <img class="sheet" src="storyboard.png" alt="主な場面14コマの一覧" loading="lazy">
-    <p class="cap">書き出し前に確認した14コマ。この一覧を見ながら、文字の大きさや人物の向きを直してから動画にした。</p>
+    <a class="sheet-link" href="storyboard.png"><img class="sheet" src="storyboard.png" alt="主な場面14コマの一覧" loading="lazy"></a>
+    <p class="cap"><span class="tap-hint">画像をタップすると大きく見られます。</span>書き出し前に確認した14コマ。この一覧を見ながら、文字の大きさや人物の向きを直してから動画にした。</p>
   </section>
 
   <section>

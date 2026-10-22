@@ -5,62 +5,165 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>学習アニメーション</title>
 <meta name="description" content="小学生向けの学習アニメーション。算数と国語の解説動画を、台本から映像・声・効果音までコードで作ったシリーズ。">
+<meta property="og:title" content="学習アニメーション">
+<meta property="og:description" content="小学生向けの算数・国語の解説アニメーション。">
+<meta property="og:image" content="kimochi-tantei/poster.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#FFF8EC;--ink:#4A3B32;--sub:#9A8A7C;--acc:#FF5C8A;--line:#EADFCB;--card:#FFFFFF}
+:root{
+  --bg:#FFF8EC;--ink:#4A3B32;--sub:#8A7A6C;--line:#EADFCB;--card:#FFFFFF;
+  --math:#FF5C8A;--math-bg:#FFE3EA;--math-d:#D93A6B;
+  --jp:#2E9C86;--jp-bg:#DDF4EE;--jp-d:#237F6D;
+}
 *{box-sizing:border-box}
-html{background:var(--bg)}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.8 "Hiragino Sans","Noto Sans JP",sans-serif;-webkit-font-smoothing:antialiased}
+html{background:var(--bg);scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.7 "Zen Maru Gothic","Hiragino Sans","Noto Sans JP",sans-serif;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
 a{color:inherit}
 .wrap{max-width:1100px;margin:0 auto;padding:0 16px}
-header{padding:20px 0;font:700 13px "Zen Maru Gothic",sans-serif;letter-spacing:.08em;color:var(--sub)}
-h1{font:700 clamp(34px,6vw,60px)/1.25 "Zen Maru Gothic",sans-serif;margin:24px 0 8px}
-.sub{font:500 clamp(16px,2.2vw,20px) "Zen Maru Gothic",sans-serif;color:var(--sub);margin:0 0 36px;max-width:760px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;margin:0 0 60px}
-.card{display:block;background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;text-decoration:none;box-shadow:0 6px 20px rgba(74,59,50,.08);transition:transform .15s,box-shadow .15s}
-.card:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(74,59,50,.14)}
-.card img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;background:#000}
-.card .body{padding:16px 18px 20px}
-.card .no{font:700 12px "Zen Maru Gothic",sans-serif;color:var(--acc);letter-spacing:.1em}
-.card h2{font:700 20px/1.4 "Zen Maru Gothic",sans-serif;margin:6px 0 6px}
-.card p{margin:0;font-size:14px;color:var(--sub)}
-footer{border-top:2px dashed var(--line);padding:28px 0 44px;font:700 13px "Zen Maru Gothic",sans-serif;color:var(--sub);letter-spacing:.06em}
+
+/* あいさつ */
+.hero{padding:28px 0 8px;text-align:center}
+.hero .tag{display:inline-block;font-weight:700;font-size:14px;color:var(--sub);letter-spacing:.08em}
+h1{font-weight:700;font-size:clamp(30px,7vw,56px);line-height:1.3;margin:8px 0 6px}
+.hero p{font-weight:500;font-size:clamp(17px,3.6vw,22px);color:var(--sub);margin:0}
+
+/* 教科をえらぶボタン */
+.jump{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:560px;margin:24px auto 8px}
+.jump a{display:flex;align-items:center;justify-content:center;gap:10px;min-height:64px;padding:10px 12px;border-radius:20px;text-decoration:none;color:#fff;font-weight:700;font-size:clamp(20px,5vw,26px);box-shadow:0 5px 0 rgba(0,0,0,.15);transition:transform .1s,box-shadow .1s}
+.jump a:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(0,0,0,.15)}
+.jump .math{background:var(--math)}
+.jump .jp{background:var(--jp)}
+.jump small{font-size:.6em;opacity:.9}
+
+/* 教科ごとのまとまり */
+.subject{margin:36px 0 0;padding:20px 16px 24px;border-radius:28px;scroll-margin-top:12px}
+.subject.math{background:var(--math-bg)}
+.subject.jp{background:var(--jp-bg)}
+.subject-head{display:flex;align-items:center;gap:12px;margin:0 0 16px}
+.mark{flex:none;display:grid;place-items:center;width:52px;height:52px;border-radius:16px;color:#fff;font-weight:700;font-size:28px}
+.math .mark{background:var(--math)}
+.jp .mark{background:var(--jp)}
+.subject h2{margin:0;font-weight:700;font-size:clamp(26px,5.5vw,34px);line-height:1.2}
+.subject h2 small{display:block;font-size:14px;font-weight:500;color:var(--sub);letter-spacing:.04em}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:18px}
+
+/* 動画カード */
+.card{display:flex;flex-direction:column;background:var(--card);border-radius:22px;overflow:hidden;text-decoration:none;border:3px solid transparent;box-shadow:0 6px 0 rgba(74,59,50,.10);transition:transform .12s,box-shadow .12s,border-color .12s}
+.card:hover{transform:translateY(-3px);box-shadow:0 9px 0 rgba(74,59,50,.12)}
+.card:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(74,59,50,.12)}
+.math .card:hover,.math .card:focus-visible{border-color:var(--math)}
+.jp .card:hover,.jp .card:focus-visible{border-color:var(--jp)}
+.card:focus-visible{outline:none}
+.thumb{position:relative;display:block;aspect-ratio:16/9;background:#000}
+.thumb img{display:block;width:100%;height:100%;object-fit:cover}
+.play{position:absolute;left:50%;top:50%;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%;background:rgba(255,255,255,.92);box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.play::after{content:"";position:absolute;left:25px;top:19px;border-style:solid;border-width:13px 0 13px 21px;border-color:transparent}
+.math .play::after{border-left-color:var(--math)}
+.jp .play::after{border-left-color:var(--jp)}
+.time{position:absolute;right:10px;bottom:10px;padding:2px 10px;border-radius:999px;background:rgba(0,0,0,.72);color:#fff;font-weight:700;font-size:14px}
+.card .body{flex:1;display:flex;flex-direction:column;padding:14px 18px 18px}
+.no{align-self:flex-start;font-weight:700;font-size:13px;padding:2px 12px;border-radius:999px;letter-spacing:.06em}
+.math .no{color:var(--math-d);background:var(--math-bg)}
+.jp .no{color:var(--jp-d);background:var(--jp-bg)}
+.card h3{font-weight:700;font-size:clamp(20px,4.6vw,23px);line-height:1.45;margin:8px 0 6px}
+.card p{margin:0 0 14px;font-weight:500;font-size:15px;color:var(--sub)}
+.go{margin-top:auto;display:flex;align-items:center;justify-content:center;min-height:48px;border-radius:14px;color:#fff;font-weight:700;font-size:18px}
+.math .go{background:var(--math)}
+.jp .go{background:var(--jp)}
+
+/* おうちの方へ */
+.about{margin:48px 0 0;padding:28px 0 0;border-top:2px dashed var(--line);color:var(--sub);font-size:14px;line-height:1.8}
+.about h2{font-size:15px;letter-spacing:.1em;margin:0 0 8px;color:var(--ink)}
+.about p{margin:0;max-width:760px}
+footer{padding:28px 0 44px;font-weight:700;font-size:13px;color:var(--sub);letter-spacing:.06em}
+
+@media (min-width:700px){
+  .subject{padding:28px 28px 32px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .card,.jump a{transition:none}
+}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header>学習アニメーション</header>
-  <h1>コードでつくる、学習アニメーション</h1>
-  <p class="sub">小学生向けの解説動画のシリーズ。算数は板チョコ1枚を「1」として、国語は本文の手がかりをたどって。台本から映像・声・効果音までコードで作っています。</p>
+  <header class="hero">
+    <span class="tag">学習アニメーション</span>
+    <h1>どれを見る？</h1>
+    <p>見たい動画をタップしてね</p>
+    <nav class="jump" aria-label="教科をえらぶ">
+      <a class="math" href="#sansu">算数 <small>2本</small></a>
+      <a class="jp" href="#kokugo">国語 <small>1本</small></a>
+    </nav>
+  </header>
 
-  <div class="grid">
-    <a class="card" href="waru-248/">
-      <img src="waru-248/poster.jpg" alt="2・4・8でわると、小数でかならずわり切れる">
-      <div class="body">
-        <div class="no">算数 第1作 · 2分34秒</div>
-        <h2>2・4・8でわると、小数でかならずわり切れる</h2>
-        <p>チョコを2人・4人・8人で分けて小数のものさしを重ねると、1人分の端が目盛りにぴったり合う。3人だと合わない対比つき。</p>
+  <main>
+    <section class="subject math" id="sansu" aria-labelledby="h-sansu">
+      <div class="subject-head">
+        <span class="mark" aria-hidden="true">算</span>
+        <h2 id="h-sansu">算数<small>チョコで考える 小数・分数</small></h2>
       </div>
-    </a>
-    <a class="card" href="bunsu-shosu/">
-      <img src="bunsu-shosu/poster.jpg" alt="同じ量、いろいろな表し方">
-      <div class="body">
-        <div class="no">算数 第2作 · 3分40秒</div>
-        <h2>同じ量、いろいろな表し方</h2>
-        <p>整数・分数・小数は、同じ量につけた別の名前。半分のチョコに「1/2枚」と「0.5枚」の札が付くところから始まります。</p>
+      <div class="grid">
+        <a class="card" href="waru-248/">
+          <span class="thumb">
+            <img src="waru-248/poster.jpg" alt="" loading="lazy" width="1280" height="720">
+            <span class="play" aria-hidden="true"></span>
+            <span class="time">2分34秒</span>
+          </span>
+          <span class="body">
+            <span class="no">第1作</span>
+            <h3>2・4・8でわると、小数でかならずわり切れる</h3>
+            <p>チョコを2人・4人・8人で分けると、1人分は小数でいくつ？ 3人だとどうなる？</p>
+            <span class="go" aria-hidden="true">▶ 見る</span>
+          </span>
+        </a>
+        <a class="card" href="bunsu-shosu/">
+          <span class="thumb">
+            <img src="bunsu-shosu/poster.jpg" alt="" loading="lazy" width="1280" height="720">
+            <span class="play" aria-hidden="true"></span>
+            <span class="time">3分40秒</span>
+          </span>
+          <span class="body">
+            <span class="no">第2作</span>
+            <h3>同じ量、いろいろな表し方</h3>
+            <p>半分のチョコは「1/2枚」？「0.5枚」？ 整数・分数・小数のつながりを見てみよう。</p>
+            <span class="go" aria-hidden="true">▶ 見る</span>
+          </span>
+        </a>
       </div>
-    </a>
-    <a class="card" href="kimochi-tantei/">
-      <img src="kimochi-tantei/poster.jpg" alt="気持ち探偵になろう！">
-      <div class="body">
-        <div class="no">国語 第1作 · 1分10秒</div>
-        <h2>気持ち探偵になろう！</h2>
-        <p>主人公の気持ちは、本文の手がかりから。「何が起きた？」「どんな反応？」「なぜ？」の3つの質問で読み取ります。</p>
+    </section>
+
+    <section class="subject jp" id="kokugo" aria-labelledby="h-kokugo">
+      <div class="subject-head">
+        <span class="mark" aria-hidden="true">国</span>
+        <h2 id="h-kokugo">国語<small>物語の読み取り</small></h2>
       </div>
-    </a>
-  </div>
+      <div class="grid">
+        <a class="card" href="kimochi-tantei/">
+          <span class="thumb">
+            <img src="kimochi-tantei/poster.jpg" alt="" loading="lazy" width="1280" height="720">
+            <span class="play" aria-hidden="true"></span>
+            <span class="time">1分10秒</span>
+          </span>
+          <span class="body">
+            <span class="no">第1作</span>
+            <h3>気持ち探偵になろう！</h3>
+            <p>主人公の気持ちは、本文の手がかりから。「何が起きた？」「どんな反応？」「なぜ？」で読み取ろう。</p>
+            <span class="go" aria-hidden="true">▶ 見る</span>
+          </span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <section class="about">
+    <h2>おうちの方へ</h2>
+    <p>小学5年生向けの解説動画のシリーズです。算数は板チョコ1枚を「1」として、国語は本文の手がかりをたどって考えます。台本から映像・声・効果音まで、Claude Code でコードから作りました。各動画のページに、ねらい・場面の一覧・つくり方をのせています。</p>
+  </section>
 
   <footer>2026-10 · Made with Claude Code</footer>
 </div>
